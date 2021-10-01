@@ -4,7 +4,23 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+import pandas as pd
+#import json
+import urllib.request
+from bs4 import BeautifulSoup
 
+url = "https://www.nytimes.com/crosswords/game/mini"
+html_icerigi =  urllib.request.urlopen(url)
+soup = BeautifulSoup(html_icerigi,"lxml")
+acrossnum = soup.find_all("span",{"class":"Clue-label--2IdMY"})
+acrosscon = soup.find_all("span",{"class":"Clue-text--3lZl7"})
+acrossliste = list()
+    
+for i in range(5):
+        acrossnum[i] = (acrossnum[i].text).strip("\n").strip()
+        acrosscon[i] = (acrosscon[i].text).strip("\n").strip()
+        
+        acrossliste.append([acrossnum[i]+".",acrosscon[i]])
 #verinin yüklenmesi
 df=pd.read_csv("ISIC_2019_Training_Metadata.csv")
 df2= pd.read_csv("ISIC_2019_Training_GroundTruth.csv")
